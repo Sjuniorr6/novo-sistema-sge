@@ -40,6 +40,39 @@ class PassagemListView(ListView):
     def get_queryset(self):
         return passagemmodel.objects.all().order_by('-data_criacao') 
 
+
+from django.db.models import Q
+
+class historicoListView(ListView):
+    model = paradasegura
+    template_name = 'historico_paradas.html'
+    context_object_name = 'pa'
+    paginate_by = 10  # Quantas entradas por página
+
+    def get_queryset(self):
+        queryset = paradasegura.objects.all().order_by('-data_criacao')
+        
+        # Filtrar pelo parâmetro 'embarcador' se estiver presente na URL
+        embarcador = self.request.GET.get('embarcador')
+        if embarcador:
+            queryset = queryset.filter(embarcador__icontains=embarcador)
+
+        return queryset
+    
+
+
+from django.views.generic.detail import DetailView
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+
+class Parada2DetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
+    model = paradasegura
+    template_name = 'parada_detail2.html'
+    context_object_name = 'parada'
+    permission_required = "requisicao.change_requisicoes"
+
+    
+
+
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView

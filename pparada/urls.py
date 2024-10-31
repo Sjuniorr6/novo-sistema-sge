@@ -8,6 +8,8 @@ from .views import (
     get_pa_choices, 
     ParadaDetailView,
     RegistrarSaidaView,
+    historicoListView,
+    Parada2DetailView,
 )
 
 urlpatterns = [
@@ -16,8 +18,10 @@ urlpatterns = [
     path('get-choices/', get_choices, name='get_choices'),
     path('passagem/', passagemCreateView.as_view(), name='passagemCreateView'),
     path('historico/', PassagemListView.as_view(), name='historico_passagem'),
+    path('historico_parada/', historicoListView.as_view(), name='historico_parada'),
     path('get_pa_choices/', get_pa_choices, name='get_pa_choices'),
     path('parada/<int:pk>/detail/', ParadaDetailView.as_view(), name='ParadaDetailView'),
+    path('parada2/<int:pk>/detail/', Parada2DetailView.as_view(), name='Parada2DetailView'),
     path('parada/<int:pk>/registrar-saida/', RegistrarSaidaView.as_view(), name='registrar_saida'),
 ]
 
